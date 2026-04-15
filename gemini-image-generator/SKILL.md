@@ -93,6 +93,7 @@ Generate branded visuals that embody Skylar's identity across all content types.
 
 **Key Requirements:**
 
+- **Skylar logo:** Always use `~/.claude/skills/gemini-image-generator/references/skylar-clean-logo.png` as `--reference` when the Skylar logo needs to appear in the image
 - Brand colors: Primary Blue (#37bcd9), Skylar Cyan (#8ee6f7), Dark Navy (#0e2e3e)
 - Ubuntu typography
 - Professional yet approachable style
@@ -187,10 +188,13 @@ Create consistent, professional data visualizations following Skylar's visual DN
 
 ### For All Modes
 
-1. **Edit, don't re-roll:** If an image is 80% correct, use it as a reference and request specific changes rather than regenerating from scratch
-2. **Be specific:** Define subject, setting, lighting, mood, materials, textures
-3. **Use natural language:** Full sentences and proper grammar, not keyword lists
-4. **Provide context:** Tell the model why or for whom you're creating the image
+1. **Always use multiple references:** The script supports `--reference` multiple times. Always include all relevant references — the Skylar logo (`~/.claude/skills/gemini-image-generator/references/skylar-clean-logo.png`), wave/ribbon style references, and any other brand assets needed. More references = more consistent output. Don't be lazy about this.
+2. **Always start with flash:** Use the default `gemini-3.1-flash-image-preview` for all initial generations and iterations. Only switch to `gemini-3-pro-image-preview` for final production-quality output or when flash results aren't good enough.
+3. **Edit, don't re-roll:** If an image is 80% correct, use it as a reference and request specific changes rather than regenerating from scratch.
+4. **Limit reference chains:** After 2-3 rounds of using previous outputs as `--reference`, quality drifts. If you're past that point, start fresh with an improved prompt instead of chaining more edits.
+5. **Be specific:** Define subject, setting, lighting, mood, materials, textures
+6. **Use natural language:** Full sentences and proper grammar, not keyword lists
+7. **Provide context:** Tell the model why or for whom you're creating the image
 
 ### For Skylar Brand Mode
 
