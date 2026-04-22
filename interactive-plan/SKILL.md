@@ -11,7 +11,8 @@ Create a high-quality implementation plan by alternating between:
 1) **Research** (repo/docs investigation) and
 2) **Interviewing** (eliciting decisions that research cannot answer).
 
-This is a **single-agent** workflow. Do not spawn sub-agents or multi-agent workflows.
+Default to a single planning agent, but delegate **substantial research** to dedicated research agents.
+When a research pass is broad, cross-cutting, or covers multiple distinct questions, read `references/research-agents.md` and follow it.
 
 ## When to use
 
@@ -42,6 +43,7 @@ Use when:
 - **Verify corrections:** If the user corrects you, validate via repo when possible.
 - **No open questions in the final plan:** If uncertainties remain, keep interviewing.
 - **Stop condition:** If the user says "stop"/"pause", stop the loop and summarize progress + next decisions.
+- **Delegate substantial research:** If the research phase is likely to be more than a quick local scan, use one or more research agents as described in `references/research-agents.md`.
 
 ## Persistent working artifacts (maintain continuously)
 
@@ -68,6 +70,12 @@ Then do an initial repo scan:
 - Read the most relevant files fully
 - Identify patterns, conventions, constraints, tests, configuration, data flows
 
+If this initial research expands into a substantial investigation:
+- Spawn a dedicated research agent instead of doing all of it in the planning agent
+- Use multiple research agents when the questions are meaningfully different
+- Have each research agent write a findings doc into the repo's `thoughts/` folder
+- Read the research-agent workflow in `references/research-agents.md`
+
 **Output after Step 1 (always):**
 - **Current State (evidence):** 3–7 bullets, each with file path (and line refs if available)
 - **Implications:** what this means for approach/scope
@@ -84,6 +92,7 @@ You will iterate:
    - Update Decision Log + Mini-plan
    - Decide whether targeted research is needed because of their answer
    - If needed: research immediately, report findings, then ask the next decision
+   - If that research is substantial, delegate it via `references/research-agents.md`
 
 **Decision Card format (required):**
 
