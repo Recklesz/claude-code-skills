@@ -9,7 +9,7 @@ license: Apache 2.0. Based on Anthropic's frontend-design skill. See NOTICE.md f
 
 This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.
 
-Related skills are bundled as subfolders inside this `impeccable/` directory: `adapt/`, `animate/`, `audit/`, `bolder/`, `clarify/`, `colorize/`, `critique/`, `delight/`, `distill/`, `harden/`, `layout/`, `optimize/`, `overdrive/`, `polish/`, `quieter/`, `shape/`, and `typeset/`.
+Related skills are bundled as subfolders inside this `impeccable/` directory. Each related skill now keeps its instructions in that folder's `README.md`: `adapt/README.md`, `animate/README.md`, `audit/README.md`, `bolder/README.md`, `clarify/README.md`, `colorize/README.md`, `critique/README.md`, `delight/README.md`, `distill/README.md`, `harden/README.md`, `layout/README.md`, `optimize/README.md`, `overdrive/README.md`, `polish/README.md`, `quieter/README.md`, `shape/README.md`, and `typeset/README.md`.
 
 ## Context Gathering Protocol
 
@@ -33,23 +33,23 @@ Individual skills may require additional context. Check the skill's preparation 
 
 The following related skills are bundled as subfolders inside this `impeccable/` directory:
 
-- `adapt/`: adapt designs for different screen sizes, devices, and contexts
-- `animate/`: add purposeful animation, micro-interactions, and motion
-- `audit/`: run technical design checks across accessibility, performance, theming, responsiveness, and anti-patterns
-- `bolder/`: make safe or bland designs more visually interesting
-- `clarify/`: improve UX copy, labels, instructions, and error messages
-- `colorize/`: add strategic color to designs that feel too gray or dull
-- `critique/`: review design quality, hierarchy, UX, and anti-patterns
-- `delight/`: add personality, surprise, and memorable finishing touches
-- `distill/`: simplify and declutter designs
-- `harden/`: make interfaces production-ready with edge cases, empty states, onboarding, overflow, and i18n covered
-- `layout/`: improve spacing, composition, alignment, and visual rhythm
-- `optimize/`: diagnose and fix UI performance issues
-- `overdrive/`: push designs into ambitious, technically impressive territory
-- `polish/`: do a final quality pass before shipping
-- `quieter/`: tone down designs that are too loud or overstimulating
-- `shape/`: plan UX and UI before implementation
-- `typeset/`: improve typography, hierarchy, sizing, and readability
+- [`adapt`](adapt/README.md): adapt designs for different screen sizes, devices, and contexts
+- [`animate`](animate/README.md): add purposeful animation, micro-interactions, and motion
+- [`audit`](audit/README.md): run technical design checks across accessibility, performance, theming, responsiveness, and anti-patterns
+- [`bolder`](bolder/README.md): make safe or bland designs more visually interesting
+- [`clarify`](clarify/README.md): improve UX copy, labels, instructions, and error messages
+- [`colorize`](colorize/README.md): add strategic color to designs that feel too gray or dull
+- [`critique`](critique/README.md): review design quality, hierarchy, UX, and anti-patterns
+- [`delight`](delight/README.md): add personality, surprise, and memorable finishing touches
+- [`distill`](distill/README.md): simplify and declutter designs
+- [`harden`](harden/README.md): make interfaces production-ready with edge cases, empty states, onboarding, overflow, and i18n covered
+- [`layout`](layout/README.md): improve spacing, composition, alignment, and visual rhythm
+- [`optimize`](optimize/README.md): diagnose and fix UI performance issues
+- [`overdrive`](overdrive/README.md): push designs into ambitious, technically impressive territory
+- [`polish`](polish/README.md): do a final quality pass before shipping
+- [`quieter`](quieter/README.md): tone down designs that are too loud or overstimulating
+- [`shape`](shape/README.md): plan UX and UI before implementation
+- [`typeset`](typeset/README.md): improve typography, hierarchy, sizing, and readability
 
 ---
 
