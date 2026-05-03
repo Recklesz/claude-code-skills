@@ -32,7 +32,8 @@ Use when:
 
 **Environment assumptions:**
 - You have access to the full repo for research via Read/Grep/Glob/Bash.
-- You may write the final plan to `planned-changes/` **only when the user explicitly asks to finalize**.
+- You may create and continuously update a working planning state file under `planned-changes/` during the interactive planning process.
+- You may write the final implementation plan only when the user explicitly asks to finalize.
 
 ## Hard constraints and guardrails
 
@@ -44,22 +45,37 @@ Use when:
 - **No open questions in the final plan:** If uncertainties remain, keep interviewing.
 - **Stop condition:** If the user says "stop"/"pause", stop the loop and summarize progress + next decisions.
 - **Delegate substantial research:** If the research phase is likely to be more than a quick local scan, use one or more research agents as described in `references/research-agents.md`.
+- **Make research artifacts observable:** For every substantial research phase, explicitly state whether research agents were launched, which questions they own, and the exact `thoughts/` findings path each one must produce. Do not proceed to decision cards until each required findings path exists or you have documented why delegation was unavailable and written the findings yourself.
+- **Resolve the repo root before writing artifacts:** Use the current project repo root, not the skill repo or a home config directory, for `thoughts/` artifacts and `planned-changes/` planning state.
+- **Prioritize the highest-impact decisions first:** Order the interview by decisions that most affect architecture, data model, rollout, risk, user experience, or phase sequencing. Work downward from the most consequential unknowns to smaller implementation details.
+- **Do not repeat state every turn:** Keep the evolving mini-plan, decision log, open questions, and research notes in the working planning state file. In chat, show only the current decision context, the trade-offs, any new evidence, and the next question.
 
-## Persistent working artifacts (maintain continuously)
+## Persistent planning state file (maintain continuously)
 
-Maintain and update these throughout the session; include them in your progress updates:
+Create and update one markdown state file for the planning session under the current project repo root:
+
+- Preferred path: `planned-changes/YYYY-MM-DD-kebab-description.planning-state.md`
+- If the repo already uses a different planning scratch convention under `planned-changes/`, follow that local convention.
+- Create `planned-changes/` if it does not exist.
+- Update this same file after every research pass and after every user decision.
+- Treat this as the source of truth for evolving planning state; do not rely on repeated chat output to preserve state.
+
+The planning state file must contain and maintain:
 
 1) **Goal** (1 sentence)
 2) **Constraints** (bullets)
 3) **Current State Findings** (with file references)
-4) **Research Backlog** (what you'll investigate next)
-5) **Decision Log** (decision → chosen option → rationale → evidence)
-6) **Open Questions** (must be empty before finalizing)
-7) **Mini-plan** (3–8 bullets, evolving phased outline)
+4) **Research Artifacts** (`thoughts/` paths and summaries)
+5) **Research Backlog** (what you will investigate next)
+6) **Decision Log** (decision → chosen option → rationale → evidence)
+7) **Open Questions** (must be empty before finalizing)
+8) **Mini-plan** (3–8 bullets, evolving phased outline)
 
 ## Workflow
 
 ### Step 1 — Intake + initial research pass (always)
+
+Resolve the current project repo root. Create or update the planning state file under `<repo-root>/planned-changes/` before asking the first decision question. Record the state file path in chat once, then update that same file silently on later turns unless the path changes.
 
 If the user provided file paths:
 - Read them **fully** first (never partially).
@@ -71,25 +87,31 @@ Then do an initial repo scan:
 - Identify patterns, conventions, constraints, tests, configuration, data flows
 
 If this initial research expands into a substantial investigation:
+- Read the research-agent workflow in `references/research-agents.md` before delegating
+- Resolve and announce the current project repo root where `thoughts/` will be written
 - Spawn a dedicated research agent instead of doing all of it in the planning agent
 - Use multiple research agents when the questions are meaningfully different
-- Have each research agent write a findings doc into the repo's `thoughts/` folder
-- Read the research-agent workflow in `references/research-agents.md`
+- Tell the user which research agents were launched and the exact question each one owns
+- Require each research agent to write a findings doc into `<repo-root>/thoughts/` and return that path in its final response
+- After agents finish, read the findings docs before asking the next decision question
+- If sub-agents are unavailable or not launched despite a substantial research trigger, state that explicitly and write the required findings doc yourself in `<repo-root>/thoughts/` before continuing
 
 **Output after Step 1 (always):**
+- **Research Artifact Status:** either `quick local scan only` or the exact `thoughts/...md` path
 - **Current State (evidence):** 3–7 bullets, each with file path (and line refs if available)
 - **Implications:** what this means for approach/scope
-- **Mini-plan v0:** an initial outline (not final)
+- **Planning State File:** exact `planned-changes/...planning-state.md` path
+- **Decision Focus:** why this is the highest-impact next decision
 - **First Decision Card** (Step 2)
 
 ### Step 2 — Decision interview loop (dynamic research ↔ questions)
 
 You will iterate:
 
-1) Pick the **highest-leverage next decision** (one that affects architecture/phasing).
-2) Present a **Decision Card**.
+1) Pick the **highest-leverage remaining decision** first (one that affects architecture, data model, rollout, risk, UX, or phasing).
+2) Present a **Decision Card** with enough context for the user to make the trade-off without rereading the whole plan.
 3) After the user answers:
-   - Update Decision Log + Mini-plan
+   - Update the planning state file's Decision Log + Mini-plan
    - Decide whether targeted research is needed because of their answer
    - If needed: research immediately, report findings, then ask the next decision
    - If that research is substantial, delegate it via `references/research-agents.md`
@@ -97,11 +119,12 @@ You will iterate:
 **Decision Card format (required):**
 
 **Decision #N — [short title]**
-- Why it matters: [1 sentence]
-- Options:
-  - A) …
-  - B) …
-  - (C) … (only if necessary)
+- Context: [repo evidence, constraints, and current plan state relevant to this decision]
+- Why it matters: [impact on architecture, sequencing, risk, UX, migration, or implementation cost]
+- Trade-offs:
+  - A) [benefit, cost, risk]
+  - B) [benefit, cost, risk]
+  - (C) [benefit, cost, risk] (only if necessary)
 - Recommendation: [only if supported by repo evidence; cite files]
 - Question: [single concrete question]
 
@@ -123,124 +146,33 @@ Ask:
 
 ### Step 4 — Draft plan (still interactive)
 
-Draft the plan content in-chat first (do not write file yet).
+Use the planning state file as the source for the draft. Read `references/planning-document.md`, then draft the plan content in-chat first (do not write the final plan file yet).
 If **any** Open Questions remain, continue the interview loop until resolved.
 
 ### Step 5 — Write the plan file (only when user says "finalize/write the plan")
 
 Create: `planned-changes/YYYY-MM-DD-kebab-description.md`
 - Use the user's timezone (Europe/London) to compute date (via Bash `date` if available).
+- Read and follow `references/planning-document.md` before writing the final file.
 
-## Planning document requirements (must be included)
+## Chat update format (every turn)
 
-When producing the plan (in-chat draft and in the saved file), use this structure:
-
-```markdown
-# [Feature/Task Name] Implementation Plan
-
-## Overview
-[Brief: what we're implementing and why]
-
-## Current State Analysis
-[What exists now, what's missing, key constraints/patterns discovered]
-
-### Key Discoveries
-- [Finding + file reference]
-- [Pattern to follow + file reference]
-- [Constraint + file reference]
-
-## Desired End State
-[Concrete specification of end behavior and how to verify it]
-
-## What We're NOT Doing
-[Explicit out-of-scope list to prevent scope creep]
-
-## Implementation Approach
-[High-level strategy and rationale, tied to discovered repo patterns]
-
-## Phase 1: [Descriptive Name]
-
-### Overview
-[What this phase accomplishes]
-
-### Changes Required
-#### 1. [Component/File Group]
-**File**: `path/to/file.ext`
-**Changes**: [summary]
-
-```[language]
-# illustrative snippet only when helpful
-```
-
-### Open Implementation Tasks
-- [ ] Task 1
-- [ ] Task 2
-
-### Success Criteria
-
-#### Automated Verification:
-- [ ] Unit tests pass: `yarn test` (or relevant command)
-- [ ] Type checking passes: `npm run typecheck` (or relevant command)
-- [ ] Linting passes: `yarn lint` (or relevant command)
-- [ ] Integration tests pass: [relevant command]
-
-#### Manual Verification:
-- [ ] Feature works as expected when tested via UI
-- [ ] Performance is acceptable under load
-- [ ] Edge case handling verified manually
-- [ ] No regressions in related features
-
-**Implementation Note:** After completing this phase and all automated verification passes, pause for human confirmation that manual testing succeeded before starting the next phase.
-
----
-
-## Phase 2: [Descriptive Name]
-
-[Repeat same structure]
-
----
-
-## Testing Strategy
-
-### Unit Tests
-- What to test
-- Key edge cases
-
-### Integration Tests
-- End-to-end scenarios
-
-### Manual Testing Steps
-1. …
-2. …
-3. …
-
-## Performance Considerations
-
-[Perf risks, budgets, caching/indexing, hot paths]
-
-## Migration Notes
-
-[Data migration/backfill/compat steps, rollback plan, feature flags, staged rollout]
-
-## References
-- Source files examined
-- Relevant internal docs/specs
-```
-
-## Progress update format (every turn)
+Do not repeat the full mini-plan or full decision log every turn. Those belong in the planning state file.
 
 Always show:
-- **Mini-plan (current)**
-- **Decision Log (new entries only)**
-- **Research performed this turn**
+- **State file:** only if newly created, moved, or materially important to mention
+- **Research performed this turn:** concise, with artifact paths when applicable
+- **Decision context:** why this decision is next and what evidence constrains it
+- **Trade-offs:** practical pros, cons, risks, and implementation impact for each option
 - **Next Decision Card** (or "Ready to draft/finalize")
 
 ## Stop / Pause behavior
 
 If user says "stop" or "pause":
 - Stop interviewing immediately.
+- Update the planning state file first.
 - Output:
-  - Mini-plan
-  - Decisions made
+  - Planning state file path
+  - Decisions made since the last user-visible summary
   - Open Questions (if any)
   - Next 1–2 recommended decisions to answer next time

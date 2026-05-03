@@ -1,6 +1,6 @@
 # Research Agents
 
-Use this reference whenever the planning workflow enters a research phase that is more substantial than a quick local scan.
+Use this reference whenever the planning workflow enters a research phase that is more substantial than a quick local scan. The planning agent must make delegation and research artifacts visible: announce launched agents, their questions, and the exact findings paths expected under the current project repo's `thoughts/` directory.
 
 ## When to spawn research agents
 
@@ -12,7 +12,7 @@ Spawn a research agent when any of these are true:
 - The planning agent would otherwise spend a long turn just reading/searching.
 - The user's request implies broad repo discovery before the next decision.
 
-Keep quick, local fact-checks in the planning agent. Delegate only the heavier research work.
+Keep quick, local fact-checks in the planning agent. Delegate only the heavier research work. If any trigger above is met and you still do not spawn a research agent, say why explicitly and produce the required `thoughts/` findings document yourself before continuing.
 
 ## Agent shape
 
@@ -44,12 +44,15 @@ Each research agent should:
 2. Also search for similar patterns elsewhere in the repo that could be reused.
 3. Read the most relevant files fully, not just grep snippets.
 4. Return evidence with file references.
-5. Write a markdown findings document into the current repo's `thoughts/` folder.
+5. Write a markdown findings document into the current project repo's `thoughts/` folder, not the skill repo and not a home configuration directory.
+6. Return the findings document path in the final response.
 
 ## Findings document requirement
 
-Every substantial research run must produce a `.md` file in `<repo>/thoughts/`.
-If `thoughts/` does not exist yet, create it in the current repo root before writing the findings doc.
+Every substantial research run must produce a `.md` file in `<repo-root>/thoughts/`. Resolve `<repo-root>` from the user's current project, preferably with `git rev-parse --show-toplevel`; if there is no Git repo, use the current working project directory and say so.
+If `thoughts/` does not exist yet, create it in that repo root before writing the findings doc.
+
+The planning agent must not treat research as complete until the expected findings document path exists. If a spawned agent reports findings without writing the doc, ask it to write the doc or write the doc yourself from the returned findings before moving on.
 
 Use a descriptive, date-stamped filename. Prefer patterns like:
 
