@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implementation With Notes"
+  short_description: "Implement plan changes while keeping simple HTML notes."
+  default_prompt: "Implement this plan change with notes."
